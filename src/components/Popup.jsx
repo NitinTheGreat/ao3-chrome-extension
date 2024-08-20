@@ -1,63 +1,99 @@
 import React, { useState } from 'react';
-import { FaBook, FaShareAlt, FaStickyNote } from 'react-icons/fa';
-import '../css/Popup.css'; // Importing the CSS file
+// import Bookmarks from './Bookmarks';
+import Recommendations from './Recommendations';
 
-function Popup() {
-  const [activeTab, setActiveTab] = useState('books');
+const Popup = () => {
+  const [showBookmarks, setShowBookmarks] = useState(false);
 
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
+  const handleGetStarted = () => {
+    setShowBookmarks(true);
   };
 
-  return (
-    <div className="popup-container">
-      <h1 className="popup-title">Recommendations</h1>
-      
-      {/* Example content */}
-      <div className="content">
-        {activeTab === 'books' && (
-          <div>
-            <h2 className="content-title">Books:</h2>
-            <p>List of recommended books...</p>
-          </div>
-        )}
-        {activeTab === 'share' && (
-          <div>
-            <h2 className="content-title">Share:</h2>
-            <p>Sharing options...</p>
-          </div>
-        )}
-        {activeTab === 'notes' && (
-          <div>
-            <h2 className="content-title">Notes:</h2>
-            <p>Your notes...</p>
-          </div>
-        )}
-      </div>
+  const styles = {
+    container: {
+      width: '420px',
+      height: '550px',
+      fontFamily: 'Arial, sans-serif',
+      backgroundColor: '#F3F5F7',
+    },
+    header: {
+      backgroundColor: 'white',
+      padding: '10px',
+      borderBottom: '1px solid #e0e0e0',
+      display: 'flex',
+      alignItems: 'center',
+    },
+    logo: {
+      width: '24px',
+      height: '24px',
+      marginRight: '10px',
+    },
+    title: {
+      color: '#1e40af',
+      fontSize: '18px',
+      fontWeight: 'bold',
+    },
+    card: {
 
-      {/* Bottom Navigation */}
-      <div className="bottom-nav">
-        <div
-          className={`nav-item ${activeTab === 'books' ? 'active' : ''}`}
-          onClick={() => handleTabChange('books')}
-        >
-          <FaBook size={24} />
-        </div>
-        <div
-          className={`nav-item ${activeTab === 'share' ? 'active' : ''}`}
-          onClick={() => handleTabChange('share')}
-        >
-          <FaShareAlt size={24} />
-        </div>
-        <div
-          className={`nav-item ${activeTab === 'notes' ? 'active' : ''}`}
-          onClick={() => handleTabChange('notes')}
-        >
-          <FaStickyNote size={24} />
-        </div>
+      background: 'linear-gradient(0deg, var(--sidebar-menubar-content-box, #FFF) 0%, var(--sidebar-menubar-content-box, #FFF) 100%), #FFF',
+      width: '280px',
+      height: '340px',
+      padding: '44px 32px',
+      margin: '35px',
+      borderRadius: '16px',
+      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    },
+    cardTitle: {
+      color: '#1e40af',
+      fontSize: '20px',
+      fontWeight: 'bold',
+      marginBottom: '15px',
+    },
+    cardText: {
+      color: '#4b5563',
+      marginBottom: '15px',
+    },
+    button: {
+      backgroundColor: '#285599',
+      color: 'white',
+      border: 'none',
+      fontSize: '16px',
+      cursor: 'pointer',
+      width: '100%',
+      marginTop: '30px',
+      padding: '16px 0px',
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: '10px',
+      alignSelf: 'stretch',
+      borderRadius: '100px'
+    },
+  };
+
+  if (showBookmarks) {
+    return <Recommendations />;
+  }
+
+  return (
+    <div style={styles.container}>
+      <header style={styles.header}>
+        <svg style={styles.logo} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 6H20M4 12H20M4 18H20" stroke="#1e40af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        <span style={styles.title}>A03 Assist</span>
+      </header>
+      <div style={styles.card}>
+        <h2 style={styles.cardTitle}>Thanks for installing AO3 Assist</h2>
+        <p style={styles.cardText}>
+          Transform your fanfic journey today! Discover personalized recommendations, add notes, and easily access your reading history with AO3 Assist—the ultimate extension for Archive of Our Own.
+        </p>
+        {/* <p style={styles.cardText}>Click "Get Started" to unlock these features now!</p> */}
+        <button style={styles.button} onClick={handleGetStarted}>
+          Get Started !
+        </button>
       </div>
     </div>
   );
-}
+};
 
 export default Popup;
