@@ -6,29 +6,30 @@ const Popup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(false);
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      // chrome.storage.local.get('accessToken', (result) => {
-      chrome.storage.local.get('accessToken', (result) => {
-        if (result.accessToken) {
-          setIsLoading(false);
-          setLoginSuccess(true);
-          setShowBookmarks(true);
-          clearInterval(intervalId);
-        }
-      });
-    }, 2000);
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     chrome.storage.local.get('accessToken', (result) => {
+  //       if (result.accessToken) {
+  //         setIsLoading(false);
+  //         setLoginSuccess(true);
+  //         setShowBookmarks(true);
+  //         clearInterval(intervalId);
+  //       }
+  //     });
+  //   }, 2000);
   
-    return () => clearInterval(intervalId); // Clean up on unmount
-  }, []);
-  
+  //   return () => clearInterval(intervalId); // Clean up on unmount
+  // }, []);
+  // 
 
+  // const handleGetStarted = () => {
+  //   setIsLoading(true);
+  //   chrome.tabs.create({ url: "http://localhost:5173/login" }); // Adjust the URL
+  //   // Popup should remain open. Handle token retrieval in background script.
+  // };
   const handleGetStarted = () => {
-    setIsLoading(true);
-    chrome.tabs.create({ url: "http://localhost:5173/login" }); // Adjust the URL
-    // Popup should remain open. Handle token retrieval in background script.
+    setShowBookmarks(true);
   };
-  
 
   if (showBookmarks) {
     return <Recommendations />;
@@ -45,9 +46,9 @@ const Popup = () => {
       <div style={styles.card}>
         <h2 style={styles.cardTitle}>Thanks for installing AO3 Assist</h2>
         <p style={styles.cardText}>
-          Transform your fanfic journey today! Discover personalized recommendations, add notes, and easily access your reading history with AO3 Assist—the ultimate extension for Archive of Our Own.
+         Transform your fanfic journey today! Discover personalized recommendations, add notes, and easily access your reading history with AO3 Assist—the ultimate extension for Archive of Our Own.
         </p>
-        {isLoading ? (
+        {/* {isLoading ? (
           <div style={styles.loadingContainer}>
             <div style={styles.loadingSpinner}></div>
             <p>Loading...</p>
@@ -60,7 +61,10 @@ const Popup = () => {
           <button style={styles.button} onClick={handleGetStarted}>
             Get Started!
           </button>
-        )}
+        )} */}
+         <button style={styles.button} onClick={handleGetStarted}>
+            Get Started!
+          </button>
       </div>
     </div>
   );
