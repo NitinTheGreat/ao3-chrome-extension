@@ -154,7 +154,21 @@ export default function Component() {
     <div style={styles.pageContainer}>
       <div style={styles.container}>
         <h1 style={styles.header}>Notes</h1>
-
+        <div>
+            <h2 style={styles.subHeader}>Search Tags :</h2>
+            <div style={styles.searchContainer}>
+              <div style={styles.searchInputContainer}>
+                <input
+                  type="text"
+                  placeholder="Search Tags"
+                  style={styles.searchInput}
+                  value={searchTag}
+                  onChange={e => setSearchTag(e.target.value)}
+                />
+                <span style={styles.searchIcon}>🔍</span>
+              </div>
+            </div>
+          </div>
         <div style={styles.gridContainer}>
           <div>
             <h2 style={styles.subHeader}>Manage your Reading list :</h2>
@@ -178,7 +192,7 @@ export default function Component() {
             {renderNotes(true)}
           </div>
 
-          <div>
+          {/* <div>
             <h2 style={styles.subHeader}>Search Tags :</h2>
             <div style={styles.searchContainer}>
               <div style={styles.searchInputContainer}>
@@ -192,7 +206,7 @@ export default function Component() {
                 <span style={styles.searchIcon}>🔍</span>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -245,6 +259,7 @@ const styles = {
   pageContainer: {
     minHeight: '100vh',
     padding: '1rem',
+    overflow: 'auto',
   },
   container: {
     maxWidth: '800px',
@@ -252,6 +267,7 @@ const styles = {
     backgroundColor: 'white',
     borderRadius: '0.5rem',
     padding: '1.5rem',
+    marginBottom: '250px',
   },
   header: {
     fontSize: '1.5rem',
@@ -342,7 +358,7 @@ const styles = {
     marginBottom: '1rem',
   },
   searchInput: {
-    width: '100%',
+    width: '80%',
     paddingLeft: '1rem',
     paddingRight: '2.5rem',
     paddingTop: '0.5rem',
