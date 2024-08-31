@@ -1,73 +1,28 @@
-import React, { useState } from 'react';
-// import Bookmarks from './Bookmarks';
+import React, { useState, useEffect } from 'react';
 import Recommendations from './Recommendations';
 
 const Popup = () => {
   const [showBookmarks, setShowBookmarks] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [tokenFound, setTokenFound] = useState(false);
 
   const handleGetStarted = () => {
-    setShowBookmarks(true);
-  };
+    setIsLoading(true);
+    chrome.tabs.create({ url: "http://localhost:5173" });
 
-  const styles = {
-    container: {
-      width: '420px',
-      height: '550px',
-      fontFamily: 'Arial, sans-serif',
-      backgroundColor: '#F3F5F7',
-    },
-    header: {
-      backgroundColor: 'white',
-      padding: '10px',
-      borderBottom: '1px solid #e0e0e0',
-      display: 'flex',
-      alignItems: 'center',
-    },
-    logo: {
-      width: '24px',
-      height: '24px',
-      marginRight: '10px',
-    },
-    title: {
-      color: '#1e40af',
-      fontSize: '18px',
-      fontWeight: 'bold',
-    },
-    card: {
+    // Start polling every 3 seconds to check for the token
+    const intervalId = setInterval(() => {
+      const token = localStorage.getItem('yourAuthTokenKey');
+      if (token) {
+        // Store the token in the extension's local storage
+        chrome.storage.local.set({ accessToken: token }, () => {
+          console.log('Token stored in extension storage:', token);
+          setShowBookmarks(true);
+        });
 
-      background: 'linear-gradient(0deg, var(--sidebar-menubar-content-box, #FFF) 0%, var(--sidebar-menubar-content-box, #FFF) 100%), #FFF',
-      width: '280px',
-      height: '340px',
-      padding: '44px 32px',
-      margin: '35px',
-      borderRadius: '16px',
-      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-    },
-    cardTitle: {
-      color: '#1e40af',
-      fontSize: '20px',
-      fontWeight: 'bold',
-      marginBottom: '15px',
-    },
-    cardText: {
-      color: '#4b5563',
-      marginBottom: '15px',
-    },
-    button: {
-      backgroundColor: '#285599',
-      color: 'white',
-      border: 'none',
-      fontSize: '16px',
-      cursor: 'pointer',
-      width: '100%',
-      marginTop: '30px',
-      padding: '16px 0px',
-      justifyContent: 'center',
-      alignItems: 'center',
-      gap: '10px',
-      alignSelf: 'stretch',
-      borderRadius: '100px'
-    },
+        clearInterval(intervalId); // Stop polling
+      }
+    }, 3000);
   };
 
   if (showBookmarks) {
@@ -87,13 +42,93 @@ const Popup = () => {
         <p style={styles.cardText}>
           Transform your fanfic journey today! Discover personalized recommendations, add notes, and easily access your reading history with AO3 Assist—the ultimate extension for Archive of Our Own.
         </p>
-        {/* <p style={styles.cardText}>Click "Get Started" to unlock these features now!</p> */}
-        <button style={styles.button} onClick={handleGetStarted}>
-          Get Started !
-        </button>
+        {isLoading ? (
+          <div style={styles.loadingContainer}>
+            <div style={styles.loadingSpinner}></div>
+            <p>Loading...</p>
+          </div>
+        ) : (
+          <button style={styles.button} onClick={handleGetStarted}>
+            Get Started!
+          </button>
+        )}
       </div>
     </div>
   );
+};
+
+const styles = {
+  container: {
+    width: '420px',
+    height: '550px',
+    fontFamily: 'Arial, sans-serif',
+    backgroundColor: '#F3F5F7',
+  },
+  header: {
+    backgroundColor: 'white',
+    padding: '10px',
+    borderBottom: '1px solid #e0e0e0',
+    display: 'flex',
+    alignItems: 'center',
+  },
+  logo: {
+    width: '24px',
+    height: '24px',
+    marginRight: '10px',
+  },
+  title: {
+    color: '#1e40af',
+    fontSize: '18px',
+    fontWeight: 'bold',
+  },
+  card: {
+    background: 'linear-gradient(0deg, var(--sidebar-menubar-content-box, #FFF) 0%, var(--sidebar-menubar-content-box, #FFF) 100%), #FFF',
+    width: '280px',
+    height: '340px',
+    padding: '44px 32px',
+    margin: '35px',
+    borderRadius: '16px',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+  },
+  cardTitle: {
+    color: '#1e40af',
+    fontSize: '20px',
+    fontWeight: 'bold',
+    marginBottom: '15px',
+  },
+  cardText: {
+    color: '#4b5563',
+    marginBottom: '15px',
+  },
+  button: {
+    backgroundColor: '#285599',
+    color: 'white',
+    border: 'none',
+    fontSize: '16px',
+    cursor: 'pointer',
+    width: '100%',
+    marginTop: '30px',
+    padding: '16px 0px',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '10px',
+    alignSelf: 'stretch',
+    borderRadius: '100px'
+  },
+  loadingContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loadingSpinner: {
+    width: '40px',
+    height: '40px',
+    border: '4px solid #ccc',
+    borderTop: '4px solid #285599',
+    borderRadius: '50%',
+    animation: 'spin 1s linear infinite',
+  },
 };
 
 export default Popup;

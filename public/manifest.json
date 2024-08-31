@@ -12,7 +12,18 @@
     }
   },
   "permissions": [
-    "tabs"
+    "storage",
+    "tabs",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://localhost:5173/*"],
+      "js": ["contentScript.js"]
+    }
   ],
   "icons": {
     "16": "icon16.png",
