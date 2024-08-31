@@ -1,33 +1,18 @@
 {
   "manifest_version": 3,
-  "name": "AO3 Extension",
+  "name": "AO3 Assist",
   "version": "1.0",
-  "description": "Shows Recommendations and Bookmarks from AO3",
-  "action": {
-    "default_popup": "index.html",
-    "default_icon": {
-      "16": "icon16.png",
-      "48": "icon48.png",
-      "128": "icon128.png"
-    }
-  },
-  "permissions": [
-    "storage",
-    "tabs",
-    "scripting"
-  ],
+  "permissions": ["storage", "tabs", "scripting", "activeTab"],
   "background": {
     "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
   },
   "content_scripts": [
     {
       "matches": ["http://localhost:5173/*"],
-      "js": ["contentScript.js"]
+      "js": ["content.js"]
     }
-  ],
-  "icons": {
-    "16": "icon16.png",
-    "48": "icon48.png",
-    "128": "icon128.png"
-  }
+  ]
 }

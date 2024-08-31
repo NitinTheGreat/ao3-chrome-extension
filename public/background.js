@@ -1,7 +1,9 @@
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.action === "openLoginPage") {
-      chrome.tabs.create({ url: "http://localhost:5173" });
-      sendResponse({ status: "success" });
+// background.js
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.type === 'STORE_TOKEN' && message.token) {
+      chrome.storage.local.set({ accessToken: message.token }, () => {
+        console.log('Token stored in extension storage:', message.token);
+      });
     }
   });
   

@@ -4,26 +4,31 @@ import Recommendations from './Recommendations';
 const Popup = () => {
   const [showBookmarks, setShowBookmarks] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [tokenFound, setTokenFound] = useState(false);
+  const [loginSuccess, setLoginSuccess] = useState(false);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      // chrome.storage.local.get('accessToken', (result) => {
+      chrome.storage.local.get('accessToken', (result) => {
+        if (result.accessToken) {
+          setIsLoading(false);
+          setLoginSuccess(true);
+          setShowBookmarks(true);
+          clearInterval(intervalId);
+        }
+      });
+    }, 2000);
+  
+    return () => clearInterval(intervalId); // Clean up on unmount
+  }, []);
+  
 
   const handleGetStarted = () => {
     setIsLoading(true);
-    chrome.tabs.create({ url: "http://localhost:5173" });
-
-    // Start polling every 3 seconds to check for the token
-    const intervalId = setInterval(() => {
-      const token = localStorage.getItem('yourAuthTokenKey');
-      if (token) {
-        // Store the token in the extension's local storage
-        chrome.storage.local.set({ accessToken: token }, () => {
-          console.log('Token stored in extension storage:', token);
-          setShowBookmarks(true);
-        });
-
-        clearInterval(intervalId); // Stop polling
-      }
-    }, 3000);
+    chrome.tabs.create({ url: "http://localhost:5173/login" }); // Adjust the URL
+    // Popup should remain open. Handle token retrieval in background script.
   };
+  
 
   if (showBookmarks) {
     return <Recommendations />;
@@ -47,6 +52,10 @@ const Popup = () => {
             <div style={styles.loadingSpinner}></div>
             <p>Loading...</p>
           </div>
+        ) : loginSuccess ? (
+          <div style={styles.successContainer}>
+            <p style={styles.successText}>Successfully Logged in!</p>
+          </div>
         ) : (
           <button style={styles.button} onClick={handleGetStarted}>
             Get Started!
@@ -56,7 +65,6 @@ const Popup = () => {
     </div>
   );
 };
-
 const styles = {
   container: {
     width: '420px',
@@ -113,7 +121,7 @@ const styles = {
     alignItems: 'center',
     gap: '10px',
     alignSelf: 'stretch',
-    borderRadius: '100px'
+    borderRadius: '100px',
   },
   loadingContainer: {
     display: 'flex',
@@ -128,6 +136,17 @@ const styles = {
     borderTop: '4px solid #285599',
     borderRadius: '50%',
     animation: 'spin 1s linear infinite',
+  },
+  successContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+  },
+  successText: {
+    color: '#4CAF50',
+    fontSize: '16px',
+    fontWeight: 'bold',
   },
 };
 
