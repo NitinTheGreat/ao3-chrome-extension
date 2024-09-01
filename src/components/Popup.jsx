@@ -28,7 +28,14 @@ const Popup = () => {
   //   // Popup should remain open. Handle token retrieval in background script.
   // };
   const handleGetStarted = () => {
-    setShowBookmarks(true);
+    
+      chrome.storage.local.get("refreshToken", function (result) {
+        console.log(result.refreshToken);
+        // setYes(result.greeting);
+      });
+   
+  
+  
   };
 
   if (showBookmarks) {
