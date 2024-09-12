@@ -102,12 +102,25 @@ chrome.runtime.onMessageExternal.addListener((request, sender, sendResponse) => 
   return true; // Ensure the message channel stays open for async response
 });
 
-chrome.storage.local.get(['refreshToken'], function(result) {
-  console.log('Stored refreshToken:', result.refreshToken); // Check if token is stored
-  chrome.storage.local.set({ refreshToken: result.refreshToken }, function () {
-    console.log('Token stored successfully second');
-  });
+const getRefreshToken = () => new Promise((resolve) => {
+  console.log('Getting refresh token');
+  chrome.storage.local.get(['refreshToken'], (result) => resolve(result.refreshToken));
 });
 
+getRefreshToken()
+  .then((refreshToken) => {
+    if (refreshToken) {
+      console.log('Refresh token found:', refreshToken);
+      return chrome.storage.local.set({ refreshToken });
+    }
+  })
+  .then(() => console.log('Token stored successfully'))
+  .catch((error) => console.error('Error storing token:', error));
 
-
+  // chrome.storage.local.get(['refreshToken'], function(result) {
+  //     console.log("result", result);
+  //     console.log('Stored refreshToken:', result.refreshToken); // Check if token is stored
+  //     chrome.storage.local.set({ refreshToken: result.refreshToken }, function() {
+  //       console.log('Token stored successfully');
+  //     });
+  //   });

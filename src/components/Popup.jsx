@@ -28,17 +28,17 @@ const Popup = () => {
   //   // Popup should remain open. Handle token retrieval in background script.
   // };
   const handleGetStarted = () => {
-    console.log("Get Started clicked new");
-    
-    // Send message to background script
+    console.log("Get Started clicked");
+  
     chrome.runtime.sendMessage({ action: 'runBackgroundScript' }, (response) => {
       if (chrome.runtime.lastError) {
-        console.error('Error sending message:', chrome.runtime.lastError);
+        console.error('Error sending message:', chrome.runtime.lastError.message); // Show full error
       } else {
         console.log('Background script response:', response);
       }
     });
   };
+  
 
 
   if (showBookmarks) {
