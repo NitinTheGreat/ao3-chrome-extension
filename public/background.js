@@ -73,18 +73,41 @@
 //     return true; // Keep the message channel open for async response
 //   }
 // });
-console.log('Background script running');
-chrome.runtime.onMessageExternal.addListener(
-  (request, sender, sendResponse) => {
-    console.log('got smth');
-    if (request.action === 'storeToken') {
-      chrome.storage.local.set({ refreshToken: request.token }, function () {
-        console.log('Token stored successfully');
-        sendResponse({ status: 'success' });
-      });
-      return true; // Keep the message channel open for sendResponse
-    }
+
+// chrome.runtime.onMessageExternal.addListener(
+//   (request, sender, sendResponse) => {
+//     console.log('got smth');
+//     if (request.action === 'storeToken') {
+//       chrome.storage.local.set({ refreshToken: request.token }, function () {
+//         console.log('Token stored successfully');
+//         sendResponse({ status: 'success' });
+//       });
+//       return true; // Keep the message channel open for sendResponse
+//     }
+//   }
+// );
+console.log('Background script running ');
+
+chrome.runtime.onMessageExternal.addListener((request, sender, sendResponse) => {
+  console.log('Message received:', request); // Check if message is logged
+  if (request.action === 'storeToken') {
+    console.log('Storing token:', request.token); // Log token before storing
+    chrome.storage.local.set({ refreshToken: request.token }, function () {
+      console.log('Token stored successfully');
+      sendResponse({ status: 'success' });
+    });
+  } else {
+    console.log('Unknown action received:', request.action);
   }
-);
+  return true; // Ensure the message channel stays open for async response
+});
+
+chrome.storage.local.get(['refreshToken'], function(result) {
+  console.log('Stored refreshToken:', result.refreshToken); // Check if token is stored
+  chrome.storage.local.set({ refreshToken: result.refreshToken }, function () {
+    console.log('Token stored successfully second');
+  });
+});
+
 
 

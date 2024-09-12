@@ -28,17 +28,16 @@ const Popup = () => {
   //   // Popup should remain open. Handle token retrieval in background script.
   // };
   const handleGetStarted = () => {
-    console.log("Get Started clicked");
-    // chrome.storage.local.get(['accessToken', 'refreshToken'], (result) => {
-    //   console.log('Value currently is ' + result.accessToken);
-    //   console.log("Before if else");
-    //   if (result.accessToken && result.refreshToken) {
-    //     console.log('Access Token:', result.accessToken);
-    //     console.log('Refresh Token:', result.refreshToken);
-    //   } else {
-    //     console.error('No tokens found in storage.');
-    //   }
-    // });
+    console.log("Get Started clicked new");
+    
+    // Send message to background script
+    chrome.runtime.sendMessage({ action: 'runBackgroundScript' }, (response) => {
+      if (chrome.runtime.lastError) {
+        console.error('Error sending message:', chrome.runtime.lastError);
+      } else {
+        console.log('Background script response:', response);
+      }
+    });
   };
 
 
