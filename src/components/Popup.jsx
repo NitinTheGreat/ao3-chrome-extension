@@ -28,15 +28,19 @@ const Popup = () => {
   //   // Popup should remain open. Handle token retrieval in background script.
   // };
   const handleGetStarted = () => {
-    
-      chrome.storage.local.get("refreshToken", function (result) {
-        console.log(result.refreshToken);
-        // setYes(result.greeting);
-      });
-   
-  
-  
+    console.log("Get Started clicked");
+    // chrome.storage.local.get(['accessToken', 'refreshToken'], (result) => {
+    //   console.log('Value currently is ' + result.accessToken);
+    //   console.log("Before if else");
+    //   if (result.accessToken && result.refreshToken) {
+    //     console.log('Access Token:', result.accessToken);
+    //     console.log('Refresh Token:', result.refreshToken);
+    //   } else {
+    //     console.error('No tokens found in storage.');
+    //   }
+    // });
   };
+
 
   if (showBookmarks) {
     return <Recommendations />;

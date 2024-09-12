@@ -9,10 +9,13 @@
   "action": {
     "default_popup": "index.html"
   },
-  "content_scripts": [
-    {
-      "matches": ["http://localhost:5173/*"],
-      "js": ["content.js"]
-    }
-  ]
+  "externally_connectable": {
+    "matches": [
+      "http://localhost:5173/*",
+      "https://archiveofourown.org/*",
+      "https://localhost:5173/*"
+
+    ]
+  }
+
 }
