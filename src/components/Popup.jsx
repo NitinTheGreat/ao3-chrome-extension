@@ -30,14 +30,23 @@ const Popup = () => {
   const handleGetStarted = () => {
     console.log("Get Started clicked");
   
-    chrome.runtime.sendMessage({ action: 'runBackgroundScript' }, (response) => {
-      if (chrome.runtime.lastError) {
-        console.error('Error sending message:', chrome.runtime.lastError.message); // Show full error
-      } else {
-        console.log('Background script response:', response);
+    // Send a message to background.js to get the refreshToken
+    chrome.runtime.sendMessage(
+      { action: 'getRefreshToken' },
+      (response) => {
+        if (chrome.runtime.lastError) {
+          console.error('Error sending message:', chrome.runtime.lastError.message);
+        } else if (response && response.refreshToken) {
+          // Store the refreshToken in localStorage
+          localStorage.setItem('refreshToken', response.refreshToken);
+          console.log('Refresh token stored in localStorage:', response.refreshToken);
+        } else if (response.error) {
+          console.error('Error:', response.error);
+        }
       }
-    });
+    );
   };
+  
   
 
 
