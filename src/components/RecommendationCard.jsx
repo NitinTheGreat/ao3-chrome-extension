@@ -7,7 +7,7 @@ const recommendationsCard = ({ title, links, onNotesClick }) => {
       borderRadius: '8px',
       boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
       padding: '16px',
-      marginBottom: '16px',
+      marginBottom: '24px',
     },
     title: {
       color: '#2563eb',

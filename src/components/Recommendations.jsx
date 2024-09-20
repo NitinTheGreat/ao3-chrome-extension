@@ -15,7 +15,8 @@ const Recommendations = () => {
       display: 'flex',
       flexDirection: 'column',
       position: 'relative',
-      overflow: 'hidden',
+   
+      // overflow: 'auto',
     },
     header: {
       backgroundColor: 'white',
@@ -126,6 +127,26 @@ const Recommendations = () => {
   const demoData = [
     {
       title: 'vision',
+      links: [
+        'https://archiveofourown.org/works/57908641',
+        'https://archiveofourown.org/works/57816841',
+        'https://archiveofourown.org/works/57703315',
+        'https://archiveofourown.org/works/57678076',
+        'https://archiveofourown.org/works/57640432',
+      ],
+    },
+    {
+      title: 'okiura',
+      links: [
+        'https://archiveofourown.org/works/57908641',
+        'https://archiveofourown.org/works/57816841',
+        'https://archiveofourown.org/works/57703315',
+        'https://archiveofourown.org/works/57678076',
+        'https://archiveofourown.org/works/57640432',
+      ],
+    },
+    {
+      title: 'okiura',
       links: [
         'https://archiveofourown.org/works/57908641',
         'https://archiveofourown.org/works/57816841',
