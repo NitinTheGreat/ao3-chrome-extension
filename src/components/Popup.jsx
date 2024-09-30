@@ -4,20 +4,48 @@ import Recommendations from './Recommendations';
 export default function Popup() {
   const [activeComponent, setActiveComponent] = useState('popup');
 
+  // const handleGetStarted = () => {
+  //   console.log("Get Started clicked");
+
+  //   const storedAccessToken = localStorage.getItem('accessToken');
+  //   const storedRefreshToken = localStorage.getItem('refreshToken');
+
+  //   if (storedAccessToken && storedRefreshToken) {
+  //     console.log('Tokens found in localStorage:', storedAccessToken, storedRefreshToken);
+  //     setActiveComponent('recommendations');
+  //   } else {
+  //     console.log('Tokens not found, redirecting to Google');
+  //     window.open('https://google.com', '_blank');
+  //   }
+  // };
   const handleGetStarted = () => {
     console.log("Get Started clicked");
 
-    const storedAccessToken = localStorage.getItem('accessToken');
-    const storedRefreshToken = localStorage.getItem('refreshToken');
+    // Send a message to background.js to get the refreshToken
+    // Send a message to background.js to get both tokens
+    chrome.runtime.sendMessage(
+      { action: 'getTokens', tokens: ['refreshToken', 'accessToken'] }, // Combine the actions
+      (response) => {
+        if (chrome.runtime.lastError) {
+          console.error('Error sending message:', chrome.runtime.lastError.message);
+        } else if (response && response.refreshToken && response.accessToken) {
+          // Store both tokens in localStorage
+          localStorage.setItem('accessToken', response.accessToken);
+          localStorage.setItem('refreshToken', response.refreshToken);
+          console.log('Tokens stored in localStorage:', response.accessToken, response.refreshToken);
+        } else if (response.error) {
+          console.error('Error:', response.error);
+        }
+      }
+    );
 
-    if (storedAccessToken && storedRefreshToken) {
-      console.log('Tokens found in localStorage:', storedAccessToken, storedRefreshToken);
+    if(localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')){
+      console.log('Tokens found in localStorage:', localStorage.getItem('accessToken'), localStorage.getItem('refreshToken'));
       setActiveComponent('recommendations');
-    } else {
-      console.log('Tokens not found, redirecting to Google');
-      window.open('https://google.com', '_blank');
     }
+    
   };
+
 
   if (activeComponent === 'recommendations') {
     return <Recommendations />;
