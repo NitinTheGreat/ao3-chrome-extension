@@ -6,9 +6,8 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: 'index.html',
-        login: 'public/login.html',
-        signup: 'public/signup.html'
+        main: 'index.html'
+       
       }
     }
   }
