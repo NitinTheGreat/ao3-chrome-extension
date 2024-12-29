@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
+import Notes from './Notes';
+import { Footer } from '../components/footer';
 
 const Recommendations = () => {
   const [activeTab, setActiveTab] = useState('recommendations');
@@ -60,59 +62,6 @@ const Recommendations = () => {
       overflowY: 'auto',
       padding: '16px',
     },
-    footer: {
-      height: '85px',
-      backgroundColor: '#FFFFFF',
-      position: 'relative',
-    },
-    footerSvg: {
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-    },
-    footerContent: {
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      height: '85px',
-      display: 'flex',
-      justifyContent: 'space-around',
-      alignItems: 'flex-end',
-      paddingBottom: '16px',
-    },
-    footerButton: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      background: 'none',
-      border: 'none',
-      cursor: 'pointer',
-      outline: 'none',
-    },
-    footerButtonText: {
-      marginTop: '4px',
-      fontSize: '12px',
-    },
-    centerButton: {
-      width: '64px',
-      height: '64px',
-      borderRadius: '50%',
-      backgroundColor: '#FFFFFF',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
-      position: 'absolute',
-      bottom: '32px',
-      left: '50%',
-      transform: 'translateX(-50%)',
-      cursor: 'pointer',
-      border: 'none',
-      outline: 'none',
-    },
     recommendationCard: {
       backgroundColor: '#FFFFFF',
       borderRadius: '8px',
@@ -161,13 +110,6 @@ const Recommendations = () => {
   const handleOpenClick = () => {
     window.open('https://archiveofourown.org', '_blank');
   };
-
-  const Notes = () => (
-    <div style={{ padding: '20px', color: '#285599' }}>
-      <h2>Notes Component</h2>
-      <p>This is a placeholder for the Notes component.</p>
-    </div>
-  );
 
   const renderContent = () => {
     switch (activeTab) {
@@ -264,95 +206,17 @@ const Recommendations = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
         >
-          Recommendations
+          {activeTab === 'notes' ? 'Notes' : 'Recommendations'}
         </motion.span>
       </motion.nav>
 
       {renderContent()}
 
-      <footer style={styles.footer}>
-        <svg style={styles.footerSvg} width="420" height="85" viewBox="0 0 420 85" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 0H420V85H0V0Z" fill="white"/>
-          <path d="M170 0C170 0 182 20 210 20C238 20 250 0 250 0H170Z" fill="#F3F5F7"/>
-          <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="-2" stdDeviation="3" floodOpacity="0.2"/>
-          </filter>
-          <rect width="420" height="85" fill="white" filter="url(#shadow)"/>
-        </svg>
-
-        <div style={styles.footerContent}>
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => handleTabClick('recommendations')}
-            style={{
-              ...styles.footerButton,
-              color: activeTab === 'recommendations' ? '#285599' : '#4b5563',
-            }}
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            <span style={styles.footerButtonText}>Recommendations</span>
-            {activeTab === 'recommendations' && (
-              <motion.div
-                layoutId="activeTabOutline"
-                style={{
-                  position: 'absolute',
-                  top: -4,
-                  left: -4,
-                  right: -4,
-                  bottom: -4,
-                  border: '2px solid #285599',
-                  borderRadius: '8px',
-                }}
-                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              />
-            )}
-          </motion.button>
-
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleOpenClick}
-            style={styles.centerButton}
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" stroke="#4b5563" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </motion.button>
-
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => handleTabClick('notes')}
-            style={{
-              ...styles.footerButton,
-              color: activeTab === 'notes' ? '#285599' : '#4b5563',
-            }}
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            <span style={styles.footerButtonText}>Notes</span>
-            {activeTab === 'notes' && (
-              <motion.div
-                layoutId="activeTabOutline"
-                style={{
-                  position: 'absolute',
-                  top: -4,
-                  left: -4,
-                  right: -4,
-                  bottom: -4,
-                  border: '2px solid #285599',
-                  borderRadius: '8px',
-                }}
-                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              />
-            )}
-          </motion.button>
-        </div>
-      </footer>
+      <Footer 
+        activeTab={activeTab}
+        onTabClick={handleTabClick}
+        onOpenClick={handleOpenClick}
+      />
     </div>
   );
 };

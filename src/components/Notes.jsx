@@ -1,174 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Settings } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-const initialNotes = [
-  { id: '1', title: 'Everyday Love in Stockholm', tags: ['Humor', 'Hurt', 'Loki'], completed: false },
-  { id: '2', title: 'Twist and Shout', tags: ['Angst', 'Tragedy'], completed: false },
-  { id: '3', title: 'Crying Lightning', tags: ['Angst', 'Bakugou'], completed: false },
-];
+const initialNotes = [];
 
-const styles = {
-  container: {
-    width: '400px',
-    height: '600px',
-    backgroundColor: '#F3F4F6',
-    display: 'flex',
-    flexDirection: 'column',
-    fontFamily: 'Arial, sans-serif',
-  },
-  header: {
-    backgroundColor: 'white',
-    borderBottom: '1px solid #E5E7EB',
-    padding: '12px 16px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  headerTitle: {
-    fontSize: '20px',
-    fontWeight: 'bold',
-    color: '#1E40AF',
-    flexGrow: 1,
-    textAlign: 'center',
-  },
-  iconButton: {
-    background: 'none',
-    border: 'none',
-    cursor: 'pointer',
-    width: '32px',
-    height: '32px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  content: {
-    flex: 1,
-    overflowY: 'auto',
-    padding: '16px',
-  },
-  addNoteContainer: {
-    backgroundColor: 'white',
-    borderRadius: '8px',
-    padding: '16px',
-    marginBottom: '16px',
-    border: '1px dashed #B0B0B0',
-    cursor: 'pointer',
-  },
-  noteContainer: {
-    backgroundColor: 'white',
-    borderRadius: '8px',
-    padding: '16px',
-    marginBottom: '16px',
-    border: '1px solid #E5E7EB',
-  },
-  noteHeader: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  checkbox: {
-    width: '16px',
-    height: '16px',
-    marginRight: '8px',
-  },
-  noteTitle: {
-    fontSize: '16px',
-  },
-  completedTitle: {
-    textDecoration: 'line-through',
-    color: '#6B7280',
-  },
-  tagContainer: {
-    marginTop: '8px',
-  },
-  tag: {
-    display: 'inline-block',
-    backgroundColor: '#E5E7EB',
-    color: '#4B5563',
-    padding: '2px 8px',
-    borderRadius: '9999px',
-    fontSize: '12px',
-    marginRight: '8px',
-    marginBottom: '4px',
-  },
-  modalOverlay: {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  modalContent: {
-    backgroundColor: 'white',
-    borderRadius: '8px',
-    padding: '24px',
-    width: '360px',
-  },
-  modalTitle: {
-    fontSize: '20px',
-    fontWeight: 'bold',
-    marginBottom: '16px',
-    color: '#1E40AF',
-  },
-  input: {
-    width: '100%',
-    padding: '8px',
-    border: '1px solid #D1D5DB',
-    borderRadius: '4px',
-    marginBottom: '16px',
-  },
-  tagInput: {
-    width: '100%',
-    padding: '8px',
-    border: '1px solid #D1D5DB',
-    borderRadius: '4px',
-  },
-  tagList: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: '8px',
-    marginBottom: '8px',
-  },
-  tagInModal: {
-    backgroundColor: '#E5E7EB',
-    color: '#374151',
-    padding: '4px 8px',
-    borderRadius: '16px',
-    fontSize: '14px',
-    display: 'flex',
-    alignItems: 'center',
-  },
-  removeTagButton: {
-    marginLeft: '4px',
-    color: '#6B7280',
-    cursor: 'pointer',
-    background: 'none',
-    border: 'none',
-    fontSize: '16px',
-  },
-  addButton: {
-    backgroundColor: '#1E40AF',
-    color: 'white',
-    padding: '8px 16px',
-    borderRadius: '4px',
-    fontWeight: '600',
-    cursor: 'pointer',
-    border: 'none',
-  },
-};
-
-const SettingsComponent = () => (
-  <div style={{ padding: '16px' }}>
-    <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '16px' }}>Settings</h2>
-    <p>This is the settings component. Add your settings options here.</p>
-  </div>
-);
-
-export default function Component() {
+const Notes = () => {
   const [notes, setNotes] = useState(() => {
     const savedNotes = localStorage.getItem('notes');
     return savedNotes ? JSON.parse(savedNotes) : initialNotes;
@@ -176,7 +11,8 @@ export default function Component() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newNote, setNewNote] = useState({ title: '', tags: [] });
   const [currentTag, setCurrentTag] = useState('');
-  const [showSettings, setShowSettings] = useState(false);
+  const [searchTag, setSearchTag] = useState('');
+  const [selectedTags, setSelectedTags] = useState([]);
   const modalRef = useRef(null);
 
   useEffect(() => {
@@ -188,7 +24,7 @@ export default function Component() {
     const newNoteWithId = {
       ...newNote,
       id: Date.now().toString(),
-      completed: false,
+      completed: false
     };
     setNotes(prevNotes => [...prevNotes, newNoteWithId]);
     setNewNote({ title: '', tags: [] });
@@ -196,20 +32,22 @@ export default function Component() {
     setIsModalOpen(false);
   };
 
-  const toggleNoteCompletion = id => {
-    setNotes(prevNotes =>
-      prevNotes.map(note =>
-        note.id === id ? { ...note, completed: !note.completed } : note
-      )
-    );
+  const toggleNoteCompletion = (id) => {
+    setNotes(prevNotes => prevNotes.map(note =>
+      note.id === id ? { ...note, completed: !note.completed } : note
+    ));
   };
 
-  const handleTagInput = e => {
+  const deleteNote = (id) => {
+    setNotes(prevNotes => prevNotes.filter(note => note.id !== id));
+  };
+
+  const handleTagInput = (e) => {
     const value = e.target.value;
     if (value.endsWith(' ') && value.trim() !== '') {
       setNewNote(prev => ({
         ...prev,
-        tags: [...prev.tags, currentTag.trim()],
+        tags: [...prev.tags, value.trim()]
       }));
       setCurrentTag('');
     } else {
@@ -217,15 +55,17 @@ export default function Component() {
     }
   };
 
-  const removeTag = tagToRemove => {
+  const removeTag = (tagToRemove) => {
     setNewNote(prev => ({
       ...prev,
-      tags: prev.tags.filter(tag => tag !== tagToRemove),
+      tags: prev.tags.filter(tag => tag !== tagToRemove)
     }));
   };
 
+  const allTags = Array.from(new Set(notes.flatMap(note => note.tags)));
+
   useEffect(() => {
-    const handleClickOutside = event => {
+    const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         setIsModalOpen(false);
       }
@@ -237,117 +77,200 @@ export default function Component() {
     };
   }, []);
 
-  const renderNotes = () => {
-    return notes.map(note => (
-      <div key={note.id} style={styles.noteContainer}>
-        <div style={styles.noteHeader}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <input
-              type="checkbox"
-              style={styles.checkbox}
-              checked={note.completed}
-              onChange={() => toggleNoteCompletion(note.id)}
-            />
-            <span style={{
-              ...styles.noteTitle,
-              ...(note.completed ? styles.completedTitle : {})
-            }}>
-              {note.title}
-            </span>
+  const toggleSelectedTag = (tag) => {
+    setSelectedTags(prevTags => 
+      prevTags.includes(tag)
+        ? prevTags.filter(t => t !== tag)
+        : [...prevTags, tag]
+    );
+  };
+
+  const sortedNotes = [...notes].sort((a, b) => {
+    const aMatchCount = a.tags.filter(tag => selectedTags.includes(tag)).length;
+    const bMatchCount = b.tags.filter(tag => selectedTags.includes(tag)).length;
+    if (aMatchCount !== bMatchCount) {
+      return bMatchCount - aMatchCount;
+    }
+    return notes.indexOf(a) - notes.indexOf(b);
+  });
+
+  const renderNotes = (completed) => {
+    return sortedNotes
+      .filter(note => note.completed === completed)
+      .map(note => (
+        <motion.div 
+          key={note.id} 
+          className="flex h-auto px-4 py-2 items-center self-stretch bg-white mb-2 rounded-lg shadow-sm"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ type: "spring", stiffness: 500, damping: 30 }}
+        >
+          <input
+            type="checkbox"
+            className="w-4 h-4 mr-2 rounded border border-[rgba(0,0,0,0.80)] bg-[#EEE]"
+            checked={completed}
+            onChange={() => toggleNoteCompletion(note.id)}
+          />
+          <div className="flex-grow overflow-hidden">
+            <span className={`text-sm ${completed ? "line-through" : ""}`}>{note.title}</span>
+            <p className="text-xs text-gray-400 mt-1 truncate">
+              {note.tags.map(tag => (
+                <span 
+                  key={tag} 
+                  className={`inline-block mr-1 ${
+                    selectedTags.includes(tag) ? 'text-blue-500 font-bold' : ''
+                  }`}
+                >
+                  #{tag}
+                </span>
+              ))}
+            </p>
           </div>
-        </div>
-        <div style={styles.tagContainer}>
-          {note.tags.map(tag => (
-            <span key={tag} style={styles.tag}>
-              #{tag}
-            </span>
-          ))}
-        </div>
-      </div>
-    ));
+          <button onClick={() => deleteNote(note.id)} className="ml-2 text-gray-400 hover:text-gray-600">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M3 6h18"></path>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+          </button>
+        </motion.div>
+      ));
   };
 
   return (
-    <div style={styles.container}>
-      <header style={styles.header}>
-        <div style={styles.iconButton}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 6H20M4 12H20M4 18H20" stroke="#1e40af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </div>
-        <h1 style={styles.headerTitle}>Notes</h1>
-        <button
-          style={styles.iconButton}
-          onClick={() => setShowSettings(!showSettings)}
+    <div className="flex flex-col h-[calc(100vh-151px)] bg-gray-100 overflow-hidden">
+      <div className="flex-grow overflow-y-auto px-4 py-4">
+        <h2 className="text-lg font-semibold mb-2 text-blue-700">Reading List</h2>
+        <motion.div 
+          className="flex w-full h-12 px-4 items-center gap-2 rounded-lg border border-dashed border-[#B0B0B0] bg-white mb-4 cursor-pointer" 
+          onClick={() => setIsModalOpen(true)}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
         >
-          <Settings color="#1E40AF" size={24} />
-        </button>
-      </header>
-      <div style={styles.content}>
-        {showSettings ? (
-          <SettingsComponent />
+          <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 10V38M10 24H38" stroke="#B0B0B0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <span className="text-gray-500 text-sm">Add Note</span>
+        </motion.div>
+
+        {notes.length === 0 ? (
+          <div className="text-center text-gray-500 mt-8">
+            <p>No notes yet. Add your first note!</p>
+          </div>
         ) : (
           <>
-            <div
-              style={styles.addNoteContainer}
-              onClick={() => setIsModalOpen(true)}
-            >
-              <div style={styles.noteHeader}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <input type="checkbox" style={styles.checkbox} disabled />
-                  <span style={{ ...styles.noteTitle, color: '#9CA3AF' }}>Add Name</span>
-                </div>
-                <span style={{ color: '#9CA3AF', fontSize: '20px' }}>+</span>
-              </div>
-              <p style={{ ...styles.tag, backgroundColor: 'transparent', color: '#9CA3AF' }}>#Add Tags</p>
-            </div>
-            {renderNotes()}
+            <AnimatePresence>
+              {renderNotes(false)}
+            </AnimatePresence>
+
+            <h2 className="text-lg font-semibold mb-2 mt-4 text-blue-700">Completed</h2>
+            <AnimatePresence>
+              {renderNotes(true)}
+            </AnimatePresence>
           </>
         )}
       </div>
 
-      {isModalOpen && (
-        <div style={styles.modalOverlay}>
-          <div ref={modalRef} style={styles.modalContent}>
-            <h3 style={styles.modalTitle}>Add a new Note :</h3>
-            <div style={{ position: 'relative' }}>
-              <input
-                type="text"
-                placeholder="Add name"
-                style={styles.input}
-                value={newNote.title}
-                onChange={e => setNewNote({ ...newNote, title: e.target.value })}
-              />
-              <span style={{ position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)' }}>✏️</span>
-            </div>
-            <div style={styles.tagList}>
-              {newNote.tags.map(tag => (
-                <span key={tag} style={styles.tagInModal}>
-                  #{tag}
-                  <button onClick={() => removeTag(tag)} style={styles.removeTagButton}>
-                    ×
-                  </button>
-                </span>
-              ))}
-            </div>
-            <input
-              type="text"
-              placeholder="#Add tags"
-              style={styles.tagInput}
-              value={currentTag}
-              onChange={handleTagInput}
-            />
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '16px' }}>
-              <button
-                style={styles.addButton}
-                onClick={addNote}
-              >
-                Add Note
-              </button>
-            </div>
-          </div>
+      <div className="px-4 py-2 bg-white border-t">
+        <h2 className="text-sm font-semibold mb-2 text-blue-700">Tags</h2>
+        <div className="flex flex-wrap gap-2">
+          <input
+            type="text"
+            placeholder="Search Tags"
+            className="w-full p-1 text-sm rounded-full border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500 mb-2"
+            value={searchTag}
+            onChange={(e) => setSearchTag(e.target.value)}
+          />
+          {allTags.filter(tag => tag.toLowerCase().includes(searchTag.toLowerCase())).map(tag => (
+            <button
+              key={tag}
+              className={`px-2 py-1 rounded-full text-xs ${
+                selectedTags.includes(tag) ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'
+              }`}
+              onClick={() => toggleSelectedTag(tag)}
+            >
+              #{tag}
+            </button>
+          ))}
         </div>
-      )}
+      </div>
+
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div 
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div 
+              ref={modalRef} 
+              className="bg-white rounded-xl w-full max-w-[300px] p-4"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            >
+              <h3 className="text-lg font-bold mb-4 text-blue-900">Add a new Note</h3>
+              <div className="mb-4">
+                <input
+                  type="text"
+                  placeholder="Add name"
+                  className="w-full p-2 border rounded-md text-sm"
+                  value={newNote.title}
+                  onChange={(e) => setNewNote({ ...newNote, title: e.target.value })}
+                />
+              </div>
+              <div className="mb-4">
+                <div className="flex flex-wrap gap-1 mb-2">
+                  {newNote.tags.map(tag => (
+                    <span 
+                      key={tag}
+                      className="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-xs flex items-center"
+                    >
+                      #{tag}
+                      <button 
+                        onClick={() => removeTag(tag)} 
+                        className="ml-1 text-gray-500 hover:text-gray-700"
+                      >
+                        ×
+                      </button>
+                    </span>
+                  ))}
+                </div>
+                <input
+                  type="text"
+                  placeholder="#Add tags"
+                  className="w-full p-2 border rounded-md text-sm"
+                  value={currentTag}
+                  onChange={handleTagInput}
+                  onKeyDown={(e) => {
+                    if (e.key === ' ' && currentTag.trim() !== '') {
+                      e.preventDefault();
+                      setNewNote(prev => ({
+                        ...prev,
+                        tags: [...prev.tags, currentTag.trim()]
+                      }));
+                      setCurrentTag('');
+                    }
+                  }}
+                />
+              </div>
+              <div className="flex justify-center">
+                <button
+                  className="bg-[#285599] text-white px-4 py-2 rounded-md text-sm font-semibold"
+                  onClick={addNote}
+                >
+                  Add Note
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
-}
+};
+
+export default Notes;
+
