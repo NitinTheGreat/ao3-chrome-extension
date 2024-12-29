@@ -143,6 +143,11 @@ export default function Popup() {
       console.log('Tokens found in localStorage:', localStorage.getItem('accessToken'), localStorage.getItem('refreshToken'));
       setActiveComponent('recommendations');
     }
+    // else redirect to google.com
+
+    else{
+      window.location.href = 'https://ao3-website.vercel.app/';
+    }
   };
 
   if (activeComponent === 'recommendations') {
