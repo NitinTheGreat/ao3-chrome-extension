@@ -129,13 +129,13 @@ export default function Popup() {
       (response) => {
         if (chrome.runtime.lastError) {
           console.error('Error sending message:', chrome.runtime.lastError.message);
-          chrome.tabs.create({ url: 'https://ao3-website.vercel.app/' }); // Redirect using Chrome API
+          // chrome.tabs.create({ url: 'https://ao3-website.vercel.app/' }); 
         } else if (response && response.refreshToken && response.accessToken) {
           localStorage.setItem('accessToken', response.accessToken);
           localStorage.setItem('refreshToken', response.refreshToken);
-          console.log('Tokens stored in localStorage:', response.accessToken, response.refreshToken);
-          setActiveComponent('recommendations'); // Proceed if tokens are valid
+          setActiveComponent('recommendations'); 
         } else {
+          setActiveComponent('recommendations');  //to be removed later
           console.error('Error: Invalid response or missing tokens');
           chrome.tabs.create({ url: 'https://ao3-website.vercel.app/' }); // Redirect if tokens are missing
         }
@@ -147,10 +147,10 @@ export default function Popup() {
   
     if (accessToken && refreshToken) {
       console.log('Tokens found in localStorage:', accessToken, refreshToken);
-      setActiveComponent('recommendations'); // Proceed if tokens are already in localStorage
+      setActiveComponent('recommendations');
     } else {
       console.log('Tokens not found in localStorage, redirecting...');
-      chrome.tabs.create({ url: 'https://ao3-website.vercel.app/' }); // Redirect if tokens are not found
+      chrome.tabs.create({ url: 'https://ao3-website.vercel.app/' });
     }
   };
   

@@ -4,8 +4,6 @@ import Popup from './components/Popup';
 import './index.css'
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Popup />
-  </React.StrictMode>,
+    <Popup />,
   document.getElementById('root')
 );
