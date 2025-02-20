@@ -26,23 +26,43 @@
 <br>
 
 ## Dependencies
- - < dependency >
- - < dependency >
-
+- React 18.3.1
+- Vite 5.3.4
+- Axios 1.7.9
+- Framer Motion 11.15.0
+- React Router DOM 6.25.1
+- TailwindCSS 3.4.10
+- React Icons 5.3.0
+- Lucide React 0.428.0
 
 ## Running
 
+### Prerequisites
+- Node.js (v14 or higher)
+- Google Chrome browser
 
-< directions to install > 
+### Installation Steps
+
+1. Clone the repository
 ```bash
-< insert code >
+git clone https://github.com/GDSCVIT/ao3-extension.git
+cd ao3-extension
 ```
-
-< directions to execute >
-
-```bash
-< insert code >
+2. Install dependencies
+```shellscript
+npm install
 ```
+3. Build the extension
+```shellscript
+npm run build
+```
+4. Load the extension in Chrome:
+
+- Open Chrome and navigate to `chrome://extensions/`
+- Enable "Developer mode" in the top right corner
+- Click "Load unpacked"
+- Select the `dist` folder that was created during the build process
+
 
 ## Contributors
 
@@ -95,4 +115,10 @@
 				<img src="http://www.iconninja.com/files/863/607/751/network-linkedin-social-connection-circular-circle-media-icon.svg" width="36" height="36" alt="LinkedIn"/>
 			</a>
 		</p>
-		<p align="center`
+		<p align="center"
+		<p align="center">
+			Machine Learning
+		</p>
+	</td>
+</tr>
+</table>
