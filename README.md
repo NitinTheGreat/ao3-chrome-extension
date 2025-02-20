@@ -11,7 +11,7 @@
 [![Discord Chat](https://img.shields.io/discord/760928671698649098.svg)](https://discord.gg/498KVdSKWR)
 
 [![DOCS](https://img.shields.io/badge/Documentation-see%20docs-green?style=flat-square&logo=appveyor)](https://github.com/NitinTheGreat/ao3-chrome-extension/blob/dev/documentation.md)
-[![UI ](https://img.shields.io/badge/User%20Interface-Link%20to%20UI-orange?style=flat-square&logo=appveyor)](INSERT_UI_LINK_HERE)
+[![UI ](https://img.shields.io/badge/User%20Interface-Link%20to%20UI-orange?style=flat-square&logo=appveyor)](https://ao3-website.vercel.app/dashboard)
 
 ## Features
 - [ ] AI-powered fanfiction recommendations based on reading history
@@ -71,47 +71,47 @@ npm run build
 	<td>
 	Nitin Kumar Pandey
 	<p align="center">
-		<img src="https://dscvit.com/images/dsc-logo-square.svg" width="150" height="150" alt="Nitin Kumar Pandey">
+		<img src="https://temp-dep.vercel.app/_next/image?url=%2Fteam%2Ftechnical%2Fnitin.jpg&w=1920&q=75" width="150" height="150" alt="Nitin Kumar Pandey">
 	</p>
 		<p align="center">
 			<a href="https://github.com/NitinTheGreat">
 				<img src="http://www.iconninja.com/files/241/825/211/round-collaboration-social-github-code-circle-network-icon.svg" width="36" height="36" alt="GitHub"/>
 			</a>
-			<a href="https://www.linkedin.com/in/person1">
+			<a href="https://www.linkedin.com/in/nitinkrpandey">
 				<img src="http://www.iconninja.com/files/863/607/751/network-linkedin-social-connection-circular-circle-media-icon.svg" width="36" height="36" alt="LinkedIn"/>
 			</a>
 		</p>
 		<p align="center">
-			Frontend Developer
+			Extension and Website
 		</p>
 	</td>
 	<td>
 	Varshith Kumar
 	<p align="center">
-		<img src="https://dscvit.com/images/dsc-logo-square.svg" width="150" height="150" alt="Varshith Kumar">
+		<img src="https://temp-dep.vercel.app/_next/image?url=%2Fteam%2Ftechnical%2Fvarshith.jpg&w=1920&q=75" width="150" height="150" alt="Varshith Kumar">
 	</p>
 		<p align="center">
-			<a href="https://github.com/person2">
+			<a href="https://github.com/var-code-5">
 				<img src="http://www.iconninja.com/files/241/825/211/round-collaboration-social-github-code-circle-network-icon.svg" width="36" height="36" alt="GitHub"/>
 			</a>
-			<a href="https://www.linkedin.com/in/person2">
+			<a href="https://www.linkedin.com/in/varshith-kumar-reddy-meda-02a7b02b3/">
 				<img src="http://www.iconninja.com/files/863/607/751/network-linkedin-social-connection-circular-circle-media-icon.svg" width="36" height="36" alt="LinkedIn"/>
 			</a>
 		</p>
 		<p align="center">
-			Backend Developer
+			Backend 
 		</p>
 	</td>
 	<td>
 	Dipit Madan
 	<p align="center">
-		<img src="https://dscvit.com/images/dsc-logo-square.svg" width="150" height="150" alt="Dipit Madan">
+		<img src="https://temp-dep.vercel.app/_next/image?url=%2Fteam%2Ftechnical%2Fdipit.jpeg&w=1920&q=75" width="150" height="150" alt="Dipit Madan">
 	</p>
 		<p align="center">
-			<a href="https://github.com/person3">
+			<a href="https://github.com/Dipit12">
 				<img src="http://www.iconninja.com/files/241/825/211/round-collaboration-social-github-code-circle-network-icon.svg" width="36" height="36" alt="GitHub"/>
 			</a>
-			<a href="https://www.linkedin.com/in/person3">
+			<a href="https://www.linkedin.com/in/dipit-madan">
 				<img src="http://www.iconninja.com/files/863/607/751/network-linkedin-social-connection-circular-circle-media-icon.svg" width="36" height="36" alt="LinkedIn"/>
 			</a>
 		</p>
