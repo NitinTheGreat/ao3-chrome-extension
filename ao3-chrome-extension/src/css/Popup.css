@@ -1,0 +1,9 @@
+.popup {
+  width: 300px;
+  padding: 20px;
+}
+
+.links {
+  display: flex;
+  justify-content: space-between;
+}
