@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "AO3 Assist",
+  "version": "1.0",
+  "permissions": ["storage", "tabs", "scripting", "activeTab"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "index.html"
+  },
+  "externally_connectable": {
+    "matches": [
+      "http://localhost:5173/*",
+      "https://archiveofourown.org/*",
+      "https://localhost:5173/*",
+      "https://ao3-website.vercel.app/*"
+
+    ]
+  }
+
+}
