@@ -13,7 +13,8 @@
     "matches": [
       "http://localhost:5173/*",
       "https://archiveofourown.org/*",
-      "https://localhost:5173/*"
+      "https://localhost:5173/*",
+      "https://ao3-website.vercel.app/*"
 
     ]
   }
